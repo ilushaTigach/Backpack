@@ -1,45 +1,56 @@
-public class Weapon extends Item {
-    private int quality;
+import lombok.NoArgsConstructor;
 
-    public Weapon(String classItem, String name, int size, int quality) {
+@NoArgsConstructor
+
+public class Weapon extends Item {
+    private Quality quality;//enum
+
+    public Weapon(ClassItem classItem, String name, int size, Quality quality) {
         super(classItem, name, size);
         this.quality = quality;
     }
 
-    public Weapon() {
-    }
+    public void setQuality(int qualitySize) throws Exception {
 
-
-    public void setQuality(int qualitySize) throws QualityException {
-
-        if (qualitySize < 0) {
-            throw new QualityException("Некорректное число");
-
+        if (qualitySize < 0 | qualitySize > 10) {
+            throw new Exception();
         }
-        quality = Randomizer.random + qualitySize;
+        int randomQuality = Randomizer.random() + qualitySize;
+        quality = determineQuality(randomQuality);
     }
 
-    public int getQuality() {
+    private Quality determineQuality(int value) {//switch case
+        switch (value) {
+            case 1:
+            case 2:
+            case 3:
+                return Quality.SHIT;
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+                return Quality.BAD;
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+                return Quality.ORDINARY;
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+                return Quality.RARE;
+            default:
+                return Quality.EPIC;
+        }
+    }
+
+    public Quality getQuality() {
         return quality;
     }
 
     public String getQualityDescription() {
-        Quality quality1;
-        boolean a = quality > 0 & quality < 4;
-        boolean b = quality < 8;
-        boolean c = quality < 12;
-        boolean d = quality < 17;
-        if (a) {
-            quality1 = Quality.SHIT;
-        } else if (b) {
-            quality1 = Quality.BAD;
-        } else if (c) {
-            quality1 = Quality.ORDINARY;
-        } else if (d) {
-            quality1 = Quality.RARE;
-        } else {
-            quality1 = Quality.EPIC;
-        }
-        return quality1.getDescription();
+        return quality.getDescription();
     }
 }

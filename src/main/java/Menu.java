@@ -1,99 +1,134 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.SneakyThrows;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
 
     Scanner scanner = new Scanner(System.in);
-    Item item = new Item();
-    Backpack backpack = new Backpack();
-    JacksonTest jacksonTest = new JacksonTest();
+    Jackson jackson = new Jackson();
         /*
         Добавление из файла или создание нового предмета
          */
-    @SneakyThrows
+
     public void startMenu() {
-        System.out.println("Нажмите 1 если хотите добавить предмет из уже существующего файла.");
+
+        System.out.println("Нажмите 1 если хотите добавить уже существующий рюкзак:");
         System.out.println("Нажмите 2 если хотите создать новый предмет:");
+        System.out.println("Нажмите 3 если хотите завершить программу:");
         while (true) {
             try {
-            int j = Integer.parseInt(scanner.nextLine());
-            if (j == 1) {
-                jacksonTest.jsonToPojoString();
-                break;
-            } else if (j == 2) {
-                createItem();
-            }
+                int j = Integer.parseInt(scanner.nextLine());
+                if (j == 1) {
+                    try {
+                        jackson.jsonToPojoString();
+                        Item item = createItem();
+                        Backpack backpack = interactionWithBackpack(item);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                } else if (j == 2) {
+                    try {
+                        Item item = createItem();
+                        Backpack backpack = interactionWithBackpack(item);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (j == 3) {
+                    System.exit(0);
+                }
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                System.out.println("Выберете действие");
             }
         }
     }
-        /*
-        Создание предмета
-         */
-        public void createItem() throws JsonProcessingException {
 
-        System.out.println("Введите класс предмета (Weapon, Armor, Potion): ");
-        item.setClassItem(scanner.nextLine());
+    /*
+    Создание предмета
+     */
+    public Item createItem() {
+        Item item = new Item();
+        System.out.println("Введите класс предмета (WEAPON, ARMOR, POTION): ");
+        while (true) {
+            try {
+                item.setClassItem(ClassItem.valueOf(scanner.nextLine()));
+                break;
+            } catch (Exception e) {
+                System.out.println("Класс введён не верно");
+            }
+        }
         System.out.println("Введите название предмета: ");
-        item.setName(scanner.nextLine());
-        System.out.println("Введите размер предмета: ");
-        item.setSize(scanner.nextInt());
-
+        while (true) {
+            try {
+                item.setName(scanner.nextLine());
+                break;
+            } catch (Exception e) {
+                System.out.println("Название не введено");
+            }
+        }
+        System.out.println("Введите размер предмета не больше 10: ");
+        while (true) {
+            try {
+                item.setSize(Integer.parseInt(scanner.nextLine()));
+                break;
+            } catch (Exception e) {
+                System.out.println("Размер назначен не коректно");
+            }
+        }
         System.out.println("Класс предмета " + item.getClassItem());
         System.out.println("Название предмета " + item.getName());
         System.out.println("Размер предмета " + item.getSize());
+
         /*
         Классификация предмета
          */
-        boolean weapon1 = item.getClassItem().equalsIgnoreCase("Weapon");
-        boolean armor2 = item.getClassItem().equalsIgnoreCase("Armor");
-        boolean potion3 = item.getClassItem().equalsIgnoreCase("Potion");
-        if (weapon1 == true) {
+
+        if (item.getClassItem().equalsIgnoreCase("Weapon") == true) {
             Weapon weapon = new Weapon();
-            boolean test = true;
             do {
                 try {
                     System.out.println("Введите качество оружия от 1 до 10: ");
-                    weapon.setQuality(scanner.nextInt());
-                    test = false;
-                } catch (QualityException e) {
-                    System.err.println((e.getMessage()));
+                    weapon.setQuality(Integer.parseInt(scanner.nextLine()));
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Качество назначено не коректно");
                 }
-            } while (test);
+            } while (true);
             System.out.println(weapon.getQualityDescription());
-        } else if (armor2 == true) {
+        } else if (item.getClassItem().equalsIgnoreCase("Armor") == true) {
             Armor armor = new Armor();
-            boolean test = true;
             do {
                 try {
                     System.out.println("Введите качество брони от 1 до 10: ");
-                    armor.setQuality(scanner.nextInt());
-                    test = false;
-                } catch (QualityException e) {
-                    System.err.println((e.getMessage()));
+                    armor.setQuality(Integer.parseInt(scanner.nextLine()));
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Качество назначено не коректно");
                 }
-            } while (test);
+            } while (true);
             System.out.println(armor.getQualityDescription());
-        } else if (potion3 == true) {
+        } else if (item.getClassItem().equalsIgnoreCase("Potion") == true) {
             Potion potion = new Potion();
-            boolean test = true;
             do {
                 try {
-                    System.out.println("Введите тип зелья согласно цифре: 1 - Лечение, 2 - Защита, 3 - Увеличение урона ");
-                    potion.setType(scanner.nextInt());
-                    test = false;
-                } catch (TypeException e) {
-                    System.err.println((e.getMessage()));
+                    System.out.println("Введите тип зелья: HEALING, DEFENSE, DAMAGE");
+                    potion.setType(Type.valueOf(scanner.nextLine()));
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Тип зелья назначен не коректно");
                 }
-            } while (test);
+            } while (true);
             System.out.println(potion.getTypeDescription());
         }
-        /*
-        Взаимодействие с рюкзаком
-         */
+        return item;
+    }
+
+    /*
+    Взаимодействие с рюкзаком
+     */
+    public Backpack interactionWithBackpack(Item item) throws JsonProcessingException {
+        Backpack backpack = new Backpack();
         System.out.println("Нажмите 1, чтобы добавить предмет в рюкзак");
         System.out.println("Нажмите 2, чтобы очистить рюкзак");
         System.out.println("Нажмите 3, чтобы проверить рюкзак на содержимое");
@@ -108,13 +143,19 @@ public class Menu {
             } else if (i == 3) {
                 backpack.takeItemFromBackpack();
             } else if (i == 4) {
-                /*
-                Запись в .json
-                */
-                DataRecorder dataRecorder = new DataRecorder();
-                dataRecorder.writeItem(jacksonTest.pojoToJsonString(backpack));
-                break;
+                interactionWithFile(backpack);
+                startMenu();
             }
         }
     }
+
+    /*
+    Запись в .json
+    */
+    public void interactionWithFile(Backpack backpack) throws JsonProcessingException {
+        DataRecorder dataRecorder = new DataRecorder();
+        dataRecorder.writeItem(jackson.pojoToJsonString(backpack));
+    }
 }
+
+

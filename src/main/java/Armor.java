@@ -1,40 +1,37 @@
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+
+@NoArgsConstructor
+@Getter
+
 public class Armor extends Item {
     private int quality;
 
-    public Armor(String classItem, String name, int size, int quality) {
+    public Armor(ClassItem classItem, String name, int size, int quality) {
         super(classItem, name, size);
         this.quality = quality;
     }
 
-    public Armor() {
-    }
 
-    public void setQuality(int qualitySize) throws QualityException {
 
-        if (qualitySize < 0) {
-            throw new QualityException("Некорректное число");
+    public void setQuality(int qualitySize) throws Exception {
 
+        if (qualitySize < 0 | qualitySize > 10) {
+            throw new Exception();
         }
-        quality = Randomizer.random + qualitySize;
-    }
-
-    public int getQuality() {
-        return quality;
+        quality = Randomizer.random() + qualitySize;
     }
 
     public String getQualityDescription() {
         Quality quality1;
-        boolean a = quality > 0 & quality < 4;
-        boolean b = quality < 8;
-        boolean c = quality < 12;
-        boolean d = quality < 17;
-        if (a) {
+        if (quality > 0 & quality < 4) {
             quality1 = Quality.SHIT;
-        } else if (b) {
+        } else if (quality < 8) {
             quality1 = Quality.BAD;
-        } else if (c) {
+        } else if (quality < 12) {
             quality1 = Quality.ORDINARY;
-        } else if (d) {
+        } else if (quality < 17) {
             quality1 = Quality.RARE;
         } else {
             quality1 = Quality.EPIC;

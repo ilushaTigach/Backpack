@@ -1,66 +1,50 @@
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+
 public class Item {
-    private String classItem;
+    private ClassItem classItem;
     private String name;
     private int size;
 
-    public Item(String classItem, String name, int size) {
-        this.classItem = classItem;
-        this.name = name;
-        this.size = size;
-    }
 
-    public Item() {
-    }
+    public Item setClassItem(ClassItem classItem) throws Exception { // сделать через enam
 
-    public Item setClassItem(String classItem1) { // сделать через enam
-
-        String weapon = new String("Weapon");
-        String armor = new String("Armor");
-        String potion = new String("Potion");
-        boolean w = classItem1.equalsIgnoreCase(weapon);
-        boolean a = classItem1.equalsIgnoreCase(armor);
-        boolean p = classItem1.equalsIgnoreCase(potion);
-        if (w == false & a == false & p == false) {
-            System.out.println("Класс введён не верно");
-            System.exit(0);
-        } else {
-            classItem = classItem1;
-        }
-
+        // Уберу потом!
+//        String weapon = new String("Weapon");
+//        String armor = new String("Armor");
+//        String potion = new String("Potion");
+//        boolean w = classItem1.equalsIgnoreCase(weapon);
+//        boolean a = classItem1.equalsIgnoreCase(armor);
+//        boolean p = classItem1.equalsIgnoreCase(potion);
+//
+//            if (w == true | a == true | p == true) {
+                this.classItem = classItem;
+//            } else {
+//                throw new Exception();
+//            }
         return this;
     }
 
-    public Item setName(String itemName) {
+    public Item setName(String itemName) throws Exception {
         if (itemName.isEmpty()) {
-            System.out.println("Название не введено");
-            System.exit(0);
+            throw new Exception();
         } else {
             name = itemName;
         }
         return this;
     }
 
-    public Item setSize(int itemSize) {
-        if (itemSize < 0) {
-            System.out.println("Размер не назначен");
-            System.exit(0);
-        } else {
+    public Item setSize(int itemSize) throws Exception {
+        if ((itemSize >= 1) && (itemSize <= 10)) {
             size = itemSize;
+        } else {
+            throw new Exception();
         }
         return this;
     }
-
-    public String getClassItem() {
-        return classItem;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-
 }

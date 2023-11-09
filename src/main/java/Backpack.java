@@ -14,8 +14,10 @@ public class Backpack {
         return  sizeBackpack - usedPlace;
     }
 
-    public void addItemInBackpack(Item item){
-        if (item.getSize() <= freePlace()){
+    public void addItemInBackpack(Item item){//здесь надо чтото сделать чтобы предметы добавлялись а не перетерались
+        int itemSize = item.getSize();
+        int renainingPlace = freePlace();
+        if (itemSize <= renainingPlace){
             items.add(item);
             System.out.println("Предмет добавлен в рюкзак");
         } else {
