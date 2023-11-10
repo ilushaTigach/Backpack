@@ -10,7 +10,5 @@ public enum ClassItem {
         this.description = description;
     }
 
-    public boolean equalsIgnoreCase(String weapon) {
-        return true;
-    }
+
 }

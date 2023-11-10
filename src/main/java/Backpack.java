@@ -14,7 +14,7 @@ public class Backpack {
         return  sizeBackpack - usedPlace;
     }
 
-    public void addItemInBackpack(Item item){//здесь надо чтото сделать чтобы предметы добавлялись а не перетерались
+    public void addItemInBackpack(Item item){
         int itemSize = item.getSize();
         int renainingPlace = freePlace();
         if (itemSize <= renainingPlace){

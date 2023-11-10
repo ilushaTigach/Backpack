@@ -12,21 +12,8 @@ public class Item {
     private int size;
 
 
-    public Item setClassItem(ClassItem classItem) throws Exception { // сделать через enam
-
-        // Уберу потом!
-//        String weapon = new String("Weapon");
-//        String armor = new String("Armor");
-//        String potion = new String("Potion");
-//        boolean w = classItem1.equalsIgnoreCase(weapon);
-//        boolean a = classItem1.equalsIgnoreCase(armor);
-//        boolean p = classItem1.equalsIgnoreCase(potion);
-//
-//            if (w == true | a == true | p == true) {
-                this.classItem = classItem;
-//            } else {
-//                throw new Exception();
-//            }
+    public Item setClassItem(ClassItem classItem) throws Exception {
+        this.classItem = classItem;
         return this;
     }
 

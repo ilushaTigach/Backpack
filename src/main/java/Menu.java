@@ -84,7 +84,7 @@ public class Menu {
         Классификация предмета
          */
 
-        if (item.getClassItem().equalsIgnoreCase("Weapon") == true) {
+        if (item.getClassItem() == ClassItem.WEAPON) {
             Weapon weapon = new Weapon();
             do {
                 try {
@@ -96,7 +96,7 @@ public class Menu {
                 }
             } while (true);
             System.out.println(weapon.getQualityDescription());
-        } else if (item.getClassItem().equalsIgnoreCase("Armor") == true) {
+        } else if (item.getClassItem() == ClassItem.ARMOR) {
             Armor armor = new Armor();
             do {
                 try {
@@ -108,12 +108,12 @@ public class Menu {
                 }
             } while (true);
             System.out.println(armor.getQualityDescription());
-        } else if (item.getClassItem().equalsIgnoreCase("Potion") == true) {
+        } else if (item.getClassItem() == ClassItem.POTION) {
             Potion potion = new Potion();
             do {
                 try {
                     System.out.println("Введите тип зелья: HEALING, DEFENSE, DAMAGE");
-                    potion.setType(Type.valueOf(scanner.nextLine()));
+                    potion.setType(PotionType.valueOf(scanner.nextLine()));
                     break;
                 } catch (Exception e) {
                     System.out.println("Тип зелья назначен не коректно");

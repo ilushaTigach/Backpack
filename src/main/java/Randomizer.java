@@ -1,6 +1,6 @@
-public  class Randomizer {
+public class Randomizer {
 
-    public static int random(){
-        return (int)(Math.random() * 10);
+    public static int random() {
+        return (int) (Math.random() * 10);
     }
 }
